@@ -1,4 +1,4 @@
-package model;
+package ru.yandex.Scooter.requests.model;
 
 import java.util.List;
 

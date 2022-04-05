@@ -1,4 +1,4 @@
-package model;
+package ru.yandex.Scooter.requests.model;
 
 public class Orders {
 

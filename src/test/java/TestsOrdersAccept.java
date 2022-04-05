@@ -1,17 +1,17 @@
-import assistSteps.StepDeleteCourier;
-import assistSteps.StepGetIdCourier;
-import assistSteps.StepGetIdOrder;
-import dataForTests.DataForCreateCourier;
-import dataForTests.DataForCreateOrder;
+import ru.yandex.Scooter.requests.assistSteps.StepDeleteCourier;
+import ru.yandex.Scooter.requests.assistSteps.StepGetIdCourier;
+import ru.yandex.Scooter.requests.assistSteps.StepGetIdOrder;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateCourier;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateOrder;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import requests.courier.PostCreateCourier;
-import requests.courier.PostLoginCourier;
-import requests.orders.PutOrderAccept;
+import ru.yandex.Scooter.requests.courier.PostCreateCourier;
+import ru.yandex.Scooter.requests.courier.PostLoginCourier;
+import ru.yandex.Scooter.requests.orders.PutOrderAccept;
 
 import java.util.ArrayList;
 

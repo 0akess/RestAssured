@@ -1,7 +1,7 @@
-package assistSteps;
+package ru.yandex.Scooter.requests.assistSteps;
 
 import io.qameta.allure.Step;
-import requests.orders.PutOrderCancel;
+import ru.yandex.Scooter.requests.orders.PutOrderCancel;
 
 public class StepCancelOrder {
 

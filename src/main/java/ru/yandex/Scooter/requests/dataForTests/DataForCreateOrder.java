@@ -1,6 +1,6 @@
-package dataForTests;
+package ru.yandex.Scooter.requests.dataForTests;
 
-import model.Orders;
+import ru.yandex.Scooter.requests.model.Orders;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 

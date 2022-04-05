@@ -1,9 +1,9 @@
-package assistSteps;
+package ru.yandex.Scooter.requests.assistSteps;
 
-import dataForTests.DataForCreateCourier;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateCourier;
 import io.qameta.allure.Step;
-import requests.courier.PostCreateCourier;
-import requests.courier.PostLoginCourier;
+import ru.yandex.Scooter.requests.courier.PostCreateCourier;
+import ru.yandex.Scooter.requests.courier.PostLoginCourier;
 
 import java.util.ArrayList;
 

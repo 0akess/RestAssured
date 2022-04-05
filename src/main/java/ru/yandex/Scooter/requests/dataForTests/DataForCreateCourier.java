@@ -1,4 +1,4 @@
-package dataForTests;
+package ru.yandex.Scooter.requests.dataForTests;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;

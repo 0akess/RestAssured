@@ -1,4 +1,4 @@
-package requests;
+package ru.yandex.Scooter.requests;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;

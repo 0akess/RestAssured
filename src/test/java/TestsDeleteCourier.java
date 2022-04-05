@@ -1,12 +1,10 @@
-import assistSteps.StepGetIdCourier;
-import dataForTests.DataForCreateCourier;
+import ru.yandex.Scooter.requests.assistSteps.StepGetIdCourier;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateCourier;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
-import requests.courier.DeleteCourier;
-
-import java.util.ArrayList;
+import ru.yandex.Scooter.requests.courier.DeleteCourier;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

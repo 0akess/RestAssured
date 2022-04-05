@@ -1,10 +1,10 @@
-import dataForTests.DataForCreateCourier;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateCourier;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
 import org.junit.*;
-import requests.courier.PostCreateCourier;
-import assistSteps.StepDeleteCourier;
+import ru.yandex.Scooter.requests.courier.PostCreateCourier;
+import ru.yandex.Scooter.requests.assistSteps.StepDeleteCourier;
 
 import java.util.ArrayList;
 

@@ -1,12 +1,12 @@
-import dataForTests.DataForCreateOrder;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateOrder;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import model.Orders;
+import ru.yandex.Scooter.requests.model.Orders;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import requests.orders.PostOrders;
+import ru.yandex.Scooter.requests.orders.PostOrders;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

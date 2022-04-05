@@ -1,11 +1,11 @@
-package assistSteps;
+package ru.yandex.Scooter.requests.assistSteps;
 
 
-import dataForTests.DataForCreateOrder;
+import ru.yandex.Scooter.requests.dataForTests.DataForCreateOrder;
 import io.qameta.allure.Step;
-import model.Orders;
-import requests.orders.GetOrderTrack;
-import requests.orders.PostOrders;
+import ru.yandex.Scooter.requests.model.Orders;
+import ru.yandex.Scooter.requests.orders.GetOrderTrack;
+import ru.yandex.Scooter.requests.orders.PostOrders;
 
 public class StepGetIdOrder {
 

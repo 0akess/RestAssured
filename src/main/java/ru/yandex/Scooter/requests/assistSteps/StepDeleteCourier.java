@@ -1,11 +1,10 @@
-package assistSteps;
+package ru.yandex.Scooter.requests.assistSteps;
 
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
-import requests.courier.DeleteCourier;
-import requests.courier.PostLoginCourier;
+import ru.yandex.Scooter.requests.courier.DeleteCourier;
+import ru.yandex.Scooter.requests.courier.PostLoginCourier;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

@@ -1,8 +1,8 @@
-package requests.courier;
+package ru.yandex.Scooter.requests.courier;
 
 import io.restassured.response.ValidatableResponse;
-import model.CourierData;
-import requests.BaseSpecForRequest;
+import ru.yandex.Scooter.requests.model.CourierData;
+import ru.yandex.Scooter.requests.BaseSpecForRequest;
 
 import static io.restassured.RestAssured.given;
 
