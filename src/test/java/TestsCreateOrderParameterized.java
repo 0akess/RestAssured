@@ -1,4 +1,3 @@
-import assistSteps.StepCancelOrder;
 import dataForTests.DataForCreateOrder;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -16,14 +15,14 @@ import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(Parameterized.class)
 @DisplayName("Набор тестов на метод 'Создание заказа'")
-public class TestsCreateOrder {
+public class TestsCreateOrderParameterized {
     private final int color;
 
-    public TestsCreateOrder(int color) {
+    public TestsCreateOrderParameterized(int color) {
         this.color = color;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Тестовые данные {0}")
     public static Object[][] getTextData() {
         return new Object[][]{
                 {0},
@@ -43,12 +42,10 @@ public class TestsCreateOrder {
 
         ValidatableResponse response = postOrders.createOrder(orders);
         int statusCode = response.extract().statusCode();
+        int trackNumber = response.extract().path("track");
+
         assertThat("Не удалось создать заказ",
                 statusCode, equalTo(HttpStatus.SC_CREATED));
-        int trackNumber = response.extract().path("track");
         assertThat("Не удалось создать заказ", trackNumber, notNullValue());
-
-        StepCancelOrder step = new StepCancelOrder();
-        step.cancelOrder(trackNumber);
     }
 }

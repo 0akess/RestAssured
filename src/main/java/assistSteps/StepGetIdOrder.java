@@ -1,12 +1,15 @@
 package assistSteps;
 
+
 import dataForTests.DataForCreateOrder;
+import io.qameta.allure.Step;
 import model.Orders;
 import requests.orders.GetOrderTrack;
 import requests.orders.PostOrders;
 
 public class StepGetIdOrder {
 
+    @Step("Получение ID заказа")
     public int getIdOrder() {
 
         DataForCreateOrder data = new DataForCreateOrder();

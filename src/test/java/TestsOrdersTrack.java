@@ -7,55 +7,60 @@ import org.junit.Test;
 import requests.orders.GetOrderTrack;
 import requests.orders.PostOrders;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 @DisplayName("Набор тестов на метод 'Получить заказ по его номеру'")
 public class TestsOrdersTrack {
+
+    private final GetOrderTrack getOrder = new GetOrderTrack();
+    private final DataForCreateOrder data = new DataForCreateOrder();
 
     @Test
     @DisplayName("Корректное получение заказа по трек-номеру заказа")
     public void ordersTrack_WithCorrectTrackOrder_200AndBody() {
 
-        DataForCreateOrder data = new DataForCreateOrder();
-        Orders orders = new Orders(data.getJsonOrder(1));
         PostOrders postOrders = new PostOrders();
+        Orders orders = new Orders(data.getJsonOrder(1));
         int track = postOrders.createOrder(orders).extract().path("track");
-        GetOrderTrack getOrder = new GetOrderTrack();
 
         ValidatableResponse response = getOrder.getOrderTrackResponse(track);
         Orders orderActual = response.extract().as(Orders.class);
+        int actualStatusCode = response.extract().statusCode();
 
-        response.statusCode(HttpStatus.SC_OK);
-        assertEquals("Метро отличается",
-                orders.getMetroStation(), orderActual.getMetroStation());
-        assertEquals("Телефон отличается",
-                orders.getPhone(), orderActual.getPhone());
-        assertEquals("Имя отличается",
-                orders.getFirstName(), orderActual.getFirstName());
+        assertThat(actualStatusCode, equalTo(HttpStatus.SC_OK));
+
+        assertThat("Метро отличается",
+                orderActual.getMetroStation(), equalTo(orders.getMetroStation()));
+
+        assertThat("Телефон отличается",
+                orderActual.getPhone(), equalTo(orders.getPhone()));
+
+        assertThat("Имя отличается",
+                orderActual.getFirstName(), equalTo(orders.getFirstName()));
     }
 
     @Test
     @DisplayName("Запрос без трек-номера заказа")
     public void ordersTrack_WithoutTrackOrder_400AndErrorMessage() {
 
-        GetOrderTrack getOrder = new GetOrderTrack();
         ValidatableResponse response = getOrder.getOrderTrackResponse(null);
         String actualMessage = response.extract().path("message");
+        int actualStatusCode = response.extract().statusCode();
 
-        response.statusCode(HttpStatus.SC_BAD_REQUEST);
-        assertEquals("Недостаточно данных для поиска", actualMessage);
+        assertThat(actualStatusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
+        assertThat(actualMessage, equalTo("Недостаточно данных для поиска"));
     }
 
     @Test
     @DisplayName("Запрос с несуществующем трек-номером заказа")
     public void ordersTrack_WithFakeTrack_404AndErrorMessage() {
 
-        GetOrderTrack getOrder = new GetOrderTrack();
-        DataForCreateOrder data = new DataForCreateOrder();
         ValidatableResponse response = getOrder.getOrderTrackResponse(data.getFakeTrack());
         String actualMessage = response.extract().path("message");
+        int actualStatusCode = response.extract().statusCode();
 
-        response.statusCode(HttpStatus.SC_NOT_FOUND);
-        assertEquals("Заказ не найден", actualMessage);
+        assertThat(actualStatusCode, equalTo(HttpStatus.SC_NOT_FOUND));
+        assertThat(actualMessage, equalTo("Заказ не найден"));
     }
 }

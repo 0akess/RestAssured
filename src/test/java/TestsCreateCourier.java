@@ -14,46 +14,40 @@ import static org.hamcrest.Matchers.equalTo;
 @DisplayName("Набор тестов на метод 'Создание курьера'")
 public class TestsCreateCourier {
 
-    DataForCreateCourier scooterCourier = new DataForCreateCourier();
-    private final ArrayList<String> dataForCreate = scooterCourier.registerCourierData();
-    private final String courierLogin = dataForCreate.get(0);
-    private final String courierPassword = dataForCreate.get(1);
+    static DataForCreateCourier scooterCourier = new DataForCreateCourier();
+    private static final ArrayList<String> dataForCreate = scooterCourier.registerCourierData();
+    private static final String courierLogin = dataForCreate.get(0);
+    private static final String courierPassword = dataForCreate.get(1);
     private final String courierFirstName = dataForCreate.get(2);
+
+    private final PostCreateCourier post = new PostCreateCourier();
+
+    @After
+    @DisplayName("Удаление курьера, если создавали")
+    public void end() {
+
+        StepDeleteCourier stepDeleteCourier = new StepDeleteCourier();
+        stepDeleteCourier.deleteCourier(courierLogin, courierPassword);
+    }
 
     @Test
     @DisplayName("Базовое и корректное создание курьера")
     public void courier_CreateNormal_201AndTrue() {
 
-        ArrayList<String> dataForCreate = scooterCourier.registerCourierData();
-        String courierLogin = dataForCreate.get(0);
-        String courierPassword = dataForCreate.get(1);
-        String courierFirstName = dataForCreate.get(2);
-
-        PostCreateCourier post = new PostCreateCourier();
         ValidatableResponse response = post.createCourier
                 (courierLogin, courierPassword, courierFirstName);
         int statusCode = response.extract().statusCode();
         boolean messageStatus = response.extract().path("ok");
 
-        try {
-            assertThat("Не удалось создать пользователя",
-                    statusCode, equalTo(HttpStatus.SC_CREATED));
-            assertThat("Не удалось создать пользователя",
-                    messageStatus, equalTo(true));
-        } finally {
-            StepDeleteCourier stepDeleteCourier = new StepDeleteCourier();
-            stepDeleteCourier.deleteCourier(courierLogin, courierPassword);
-        }
+        assertThat("Не удалось создать пользователя",
+                statusCode, equalTo(HttpStatus.SC_CREATED));
+        assertThat("Не удалось создать пользователя",
+                messageStatus, equalTo(true));
     }
-
 
     @Test
     @DisplayName("Создание курьера без 'FirstName'")
     public void courier_CreateWithoutFirstName_201AndTrue() {
-
-        ArrayList<String> dataForCreate = scooterCourier.registerCourierData();
-        String courierLogin = dataForCreate.get(0);
-        String courierPassword = dataForCreate.get(1);
 
         PostCreateCourier post = new PostCreateCourier();
         ValidatableResponse response = post.createCourier
@@ -61,75 +55,62 @@ public class TestsCreateCourier {
         int statusCode = response.extract().statusCode();
         boolean messageStatus = response.extract().path("ok");
 
-        try {
-            assertThat("Не удалось создать пользователя",
-                    statusCode, equalTo(HttpStatus.SC_CREATED));
-            assertThat("Не удалось создать пользователя",
-                    messageStatus, equalTo(true));
-        } finally {
-            StepDeleteCourier stepDeleteCourier = new StepDeleteCourier();
-            stepDeleteCourier.deleteCourier(courierLogin, courierPassword);
-        }
+        assertThat("Не удалось создать пользователя",
+                statusCode, equalTo(HttpStatus.SC_CREATED));
+        assertThat("Не удалось создать пользователя",
+                messageStatus, equalTo(true));
     }
 
     @Test
     @DisplayName("Создание курьера без 'Login'")
     public void courier_CreateWithoutLogin_400AndErrorMessage() {
 
-        PostCreateCourier post = new PostCreateCourier();
         ValidatableResponse response = post.createCourier
-                (null, courierPassword, courierFirstName);
+                ("", courierPassword, courierFirstName);
         int statusCode = response.extract().statusCode();
         String messageStatus = response.extract().path("message");
-        assertThat("Не удалось создать пользователя",
-                statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
-        assertThat("Не удалось создать пользователя",
-                messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
+
+        assertThat(statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
+        assertThat(messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
     @DisplayName("Создание курьера без 'Password'")
     public void courier_CreateWithoutPassword_400AndErrorMessage() {
 
-        PostCreateCourier post = new PostCreateCourier();
         ValidatableResponse response = post.createCourier
                 (courierLogin, "", courierFirstName);
         int statusCode = response.extract().statusCode();
         String messageStatus = response.extract().path("message");
-        assertThat("Не удалось создать пользователя",
-                statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
-        assertThat("Не удалось создать пользователя",
-                messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
+
+        assertThat(statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
+        assertThat(messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
     @DisplayName("Создание курьера без 'Password & FirstName'")
     public void courier_CreateWithoutPasswordAndFirstName_400AndErrorMessage() {
 
-        PostCreateCourier post = new PostCreateCourier();
         ValidatableResponse response = post.createCourier
                 (courierLogin, "", "");
         int statusCode = response.extract().statusCode();
         String messageStatus = response.extract().path("message");
-        assertThat("Не удалось создать пользователя",
-                statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
-        assertThat("Не удалось создать пользователя",
-                messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
+
+        assertThat(statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
+        assertThat(messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
     @DisplayName("Создание курьера без 'Login & Password'")
     public void courier_CreateWithoutLoginAndPassword_400AndErrorMessage() {
 
-        PostCreateCourier post = new PostCreateCourier();
         ValidatableResponse response = post.createCourier
                 ("", "", courierFirstName);
         int statusCode = response.extract().statusCode();
         String messageStatus = response.extract().path("message");
-        assertThat("Не удалось создать пользователя",
-                statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
-        assertThat("Не удалось создать пользователя",
-                messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
+
+        assertThat(statusCode, equalTo(HttpStatus.SC_BAD_REQUEST));
+        assertThat(messageStatus, equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
@@ -144,14 +125,7 @@ public class TestsCreateCourier {
         int statusCode = response.extract().statusCode();
         String messageStatus = response.extract().path("message");
 
-        try {
-            assertThat("Не удалось создать пользователя",
-                    statusCode, equalTo(409));
-            assertThat("Не удалось создать пользователя",
-                    messageStatus, equalTo("Этот логин уже используется"));
-        } finally {
-            StepDeleteCourier stepDeleteCourier = new StepDeleteCourier();
-            stepDeleteCourier.deleteCourier(courierLogin, courierPassword);
-        }
+        assertThat(statusCode, equalTo(HttpStatus.SC_CONFLICT));
+        assertThat(messageStatus, equalTo("Этот логин уже используется"));
     }
 }

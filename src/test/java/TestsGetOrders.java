@@ -7,25 +7,39 @@ import io.restassured.response.ValidatableResponse;
 import model.ListOrders;
 import model.Orders;
 import org.apache.http.HttpStatus;
+import org.junit.AfterClass;
 import org.junit.Test;
 import requests.orders.*;
 
 import java.util.ArrayList;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 
 @DisplayName("Набор тестов на метод 'Получение списка заказов'")
 public class TestsGetOrders {
 
+    private static final DataForCreateCourier scooterCourier = new DataForCreateCourier();
+    private static final ArrayList<String> dataForCreate = scooterCourier.registerCourierData();
+    private static final String courierLogin = dataForCreate.get(0);
+    private static final String courierPassword = dataForCreate.get(1);
+    private final String courierFirstName = dataForCreate.get(2);
+
+    private final GetOrders getOrders = new GetOrders();
+
+
+    @AfterClass
+    @DisplayName("Удаление курьера")
+    public static void after() {
+
+        StepDeleteCourier stepDeleteCourier = new StepDeleteCourier();
+        stepDeleteCourier.deleteCourier(courierLogin, courierPassword);
+    }
+
     @Test
     @DisplayName("Получение списка заказов с корректным Body")
     public void getOrders_WithCourierId_200AndNormalResponse() {
-
-        DataForCreateCourier scooterCourier = new DataForCreateCourier();
-        ArrayList<String> dataForCreate = scooterCourier.registerCourierData();
-        String courierLogin = dataForCreate.get(0);
-        String courierPassword = dataForCreate.get(1);
-        String courierFirstName = dataForCreate.get(2);
 
         StepGetIdCourier stepGetIdCourier = new StepGetIdCourier();
         int idCourier = stepGetIdCourier.getIdCourier(courierLogin, courierPassword, courierFirstName);
@@ -48,25 +62,24 @@ public class TestsGetOrders {
 
         ListOrders orders = response.extract().as(ListOrders.class);
         Orders actualOrder = orders.getOrders().get(0);
+        int actualStatusCode = response.extract().statusCode();
 
-        try {
-            response.statusCode(HttpStatus.SC_OK);
-            assertEquals("Id курьера отличается",
-                    idCourier, actualOrder.getCourierId());
-            assertEquals("Трек заказа отличается",
-                    track, actualOrder.getTrack());
-            assertEquals("Метро отличается",
-                    order.getMetroStation(), actualOrder.getMetroStation());
-            assertEquals("Телефон отличается",
-                    order.getPhone(), actualOrder.getPhone());
-            assertEquals("Имя отличается",
-                    order.getFirstName(), actualOrder.getFirstName());
-        } finally {
-            StepDeleteCourier stepDeleteCourier = new StepDeleteCourier();
-            stepDeleteCourier.deleteCourier(courierLogin, courierPassword);
-            PutOrdersFinish putOrdersFinish = new PutOrdersFinish();
-            putOrdersFinish.ordersFinish(actualOrder.getId());
-        }
+        assertThat(actualStatusCode, equalTo(HttpStatus.SC_OK));
+
+        assertThat("Id курьера отличается",
+                actualOrder.getCourierId(), equalTo(idCourier));
+
+        assertThat("Трек заказа отличается",
+                actualOrder.getTrack(), equalTo(track));
+
+        assertThat("Метро отличается",
+                actualOrder.getMetroStation(), equalTo(order.getMetroStation()));
+
+        assertThat("Телефон отличается",
+                actualOrder.getPhone(), equalTo(order.getPhone()));
+
+        assertThat("Имя отличается",
+                actualOrder.getFirstName(), equalTo(order.getFirstName()));
     }
 
     @Test
@@ -74,12 +87,12 @@ public class TestsGetOrders {
     public void getOrders_WithUseParamLimit_200AndGetTenOrder() {
 
         int amountOrders = 10;
-        GetOrders getOrders = new GetOrders();
         ValidatableResponse response = getOrders.getOrder
                 (null, null, amountOrders, null);
         ListOrders orders = response.extract().as(ListOrders.class);
 
-        assertEquals("Полученное количество заказов отличается", amountOrders, orders.getOrders().size());
+        assertThat("Полученное количество заказов отличается",
+                orders.getOrders().size(), equalTo(amountOrders));
     }
 
     @Test
@@ -87,14 +100,13 @@ public class TestsGetOrders {
     public void getOrders_WithUseParamStation_200AndCheckStation() {
 
         int numberStation = 3;
-        GetOrders getOrders = new GetOrders();
         ValidatableResponse response = getOrders.getOrder
-                (null, "[\""+ numberStation +"\"]", null, null);
+                (null, "[\"" + numberStation + "\"]", null, null);
         ListOrders orders = response.extract().as(ListOrders.class);
         Orders order = orders.getOrders().get(0);
 
-        assertEquals("Станция отличается, метод возвращает другую станцию",
-                numberStation, order.getMetroStation());
+        assertThat("Станция отличается, метод возвращает другую станцию",
+                order.getMetroStation(), equalTo(numberStation));
     }
 
     @Test
@@ -102,12 +114,11 @@ public class TestsGetOrders {
     public void getOrders_WithUseParamPage_200AndNumberPage() {
 
         int amountPage = 3;
-        GetOrders getOrders = new GetOrders();
         ValidatableResponse response = getOrders.getOrder
                 (null, null, null, amountPage);
         int page = response.extract().path("pageInfo.page");
 
-        assertEquals("Станция отличается, метод возвращает другую станцию",
-                amountPage, page);
+        assertThat("Станция отличается, метод возвращает другую станцию",
+                page, equalTo(amountPage));
     }
 }
