@@ -10,13 +10,14 @@ public class DataForCreateOrder {
 
     public Orders getJsonOrder(int whichColor) {
 
+
         String firstName = RandomStringUtils.randomAlphabetic(6);
         String lastName = RandomStringUtils.randomAlphabetic(6);
         String address = RandomStringUtils.randomAlphabetic(10);
         int metroStation = RandomUtils.nextInt(1, 15);
         String phone = RandomStringUtils.randomNumeric(11);
         int rentTime = RandomUtils.nextInt(1, 7);
-        String deliveryDate = RandomStringUtils.randomAlphabetic(10);
+        String deliveryDate = "2022-06-06";
         String comment = RandomStringUtils.randomAlphabetic(10);
 
         List<String> colorList = List.of((new String[]{"BLACK", "BLACK, GREY", "GREY", ""}));

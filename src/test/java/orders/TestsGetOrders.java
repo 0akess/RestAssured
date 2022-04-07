@@ -49,7 +49,7 @@ public class TestsGetOrders {
         int idCourier = stepGetIdCourier.getIdCourier(courierLogin, courierPassword, courierFirstName);
 
         DataForCreateOrder data = new DataForCreateOrder();
-        Orders order = new Orders(data.getJsonOrder(1));
+        Orders order = data.getJsonOrder(1);
 
         PostOrders postOrders = new PostOrders();
         int track = postOrders.createOrder(order).extract().path("track");

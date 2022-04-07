@@ -1,5 +1,7 @@
 package orders;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ru.yandex.scooter.data.DataForCreateOrder;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -39,9 +41,9 @@ public class TestsCreateOrderParameterized {
     public void orders_NormalCreate_200AndGetTrack() {
 
         DataForCreateOrder order = new DataForCreateOrder();
-        Orders orders = new Orders(order.getJsonOrder(color));
-        PostOrders postOrders = new PostOrders();
+        Orders orders = order.getJsonOrder(color);
 
+        PostOrders postOrders = new PostOrders();
         ValidatableResponse response = postOrders.createOrder(orders);
         int statusCode = response.extract().statusCode();
         int trackNumber = response.extract().path("track");
