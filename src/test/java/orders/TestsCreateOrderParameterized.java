@@ -1,15 +1,13 @@
 package orders;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import ru.yandex.scooter.data.DataForCreateOrder;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import ru.yandex.scooter.model.Orders;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.yandex.scooter.data.DataForCreateOrder;
+import ru.yandex.scooter.model.Orders;
 import ru.yandex.scooter.requests.orders.PostOrders;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 @DisplayName("Набор тестов на метод 'Создание заказа'")
 public class TestsCreateOrderParameterized {
     private final int color;
