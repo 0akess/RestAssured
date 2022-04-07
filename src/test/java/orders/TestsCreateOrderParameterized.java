@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 
-//@RunWith(Parameterized.class)
+@RunWith(Parameterized.class)
 @DisplayName("Набор тестов на метод 'Создание заказа'")
 public class TestsCreateOrderParameterized {
     private final int color;
