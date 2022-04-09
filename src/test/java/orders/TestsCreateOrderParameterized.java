@@ -18,19 +18,19 @@ import static org.hamcrest.Matchers.notNullValue;
 @RunWith(Parameterized.class)
 @DisplayName("Набор тестов на метод 'Создание заказа'")
 public class TestsCreateOrderParameterized {
-    private final int color;
+    private final String color;
 
-    public TestsCreateOrderParameterized(int color) {
+    public TestsCreateOrderParameterized(String color) {
         this.color = color;
     }
 
     @Parameterized.Parameters(name = "Тестовые данные {0}")
     public static Object[][] getTextData() {
         return new Object[][]{
-                {0},
-                {1},
-                {2},
-                {3},
+                {"BLACK"},
+                {"BLACK, GREY"},
+                {"GREY"},
+                {""},
         };
     }
 

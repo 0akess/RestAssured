@@ -23,7 +23,7 @@ public class TestsOrdersTrack {
     public void ordersTrack_WithCorrectTrackOrder_200AndBody() {
 
         PostOrders postOrders = new PostOrders();
-        Orders orders = new Orders(data.getJsonOrder(1));
+        Orders orders = new Orders(data.getJsonOrder("GREY"));
         int track = postOrders.createOrder(orders).extract().path("track");
 
         ValidatableResponse response = getOrder.getOrderTrackResponse(track);

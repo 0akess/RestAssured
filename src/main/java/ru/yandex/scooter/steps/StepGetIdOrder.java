@@ -12,7 +12,7 @@ public class StepGetIdOrder {
     public int getIdOrder() {
 
         DataForCreateOrder data = new DataForCreateOrder();
-        Orders dataForOrder = data.getJsonOrder(0);
+        Orders dataForOrder = data.getJsonOrder("GREY");
 
         PostOrders postOrders = new PostOrders();
         int track = postOrders.createOrder(dataForOrder).extract().path("track");
